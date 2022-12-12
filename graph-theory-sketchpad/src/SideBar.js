@@ -1,25 +1,15 @@
 import React from 'react';
 import './SideBar.css'
 import SideBarButton from "./SideBarButton";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {
-    faCircle,
-    faLongArrowAltRight,
-    faMousePointer, faPaintBrush,
-    faProjectDiagram,
-    faTrash, 
-    faArrowRight
-} from "@fortawesome/free-solid-svg-icons";
 import ClickAction from "./ClickAction";
 import {SketchPicker} from "react-color";
 
 function SideBar(props) {
     const {clickAction, setClickAction, color, setColor} = props
 
-    const makeButton = ({icon, name, onClickAction}) => {
+    const makeButton = ({name, onClickAction}) => {
         return (
             <SideBarButton
-                icon={icon}
                 name={name}
                 clickAction={clickAction}
                 onClickAction={onClickAction}
@@ -30,12 +20,12 @@ function SideBar(props) {
     }
 
     const buttonData = [
-        {icon: <FontAwesomeIcon icon={faMousePointer}/>, name: 'Select', onClickAction: ClickAction.SELECT},
-        {icon: <FontAwesomeIcon icon={faCircle}/>, name: 'New Vertex', onClickAction: ClickAction.ADD_VERTEX},
-        {icon: <FontAwesomeIcon icon={faProjectDiagram}/>, name: 'New Edge', onClickAction: ClickAction.ADD_EDGE},
-        {icon: <FontAwesomeIcon icon={faArrowRight}/>, name: 'New Directed Edge', onClickAction: ClickAction.ADD_EDGE},
-        {icon: <FontAwesomeIcon icon={faTrash}/>, name: 'Delete', onClickAction: ClickAction.DELETE},
-        {icon: <FontAwesomeIcon icon={faPaintBrush}/>, name: 'Color', onClickAction: ClickAction.COLOR}
+        {name: 'Select', onClickAction: ClickAction.SELECT},
+        {name: 'New Vertex', onClickAction: ClickAction.ADD_VERTEX},
+        {name: 'New Edge', onClickAction: ClickAction.ADD_EDGE},
+        {name: 'New Directed Edge', onClickAction: ClickAction.ADD_DIRECTED_EDGE},
+        {name: 'Delete', onClickAction: ClickAction.DELETE},
+        {name: 'Color', onClickAction: ClickAction.COLOR}
     ]
 
     return (
@@ -44,7 +34,7 @@ function SideBar(props) {
             <SketchPicker
                 color={color}
                 onChange={(color, event) => setColor(color.hex)}
-                width='100%'/>
+                width='91%'/>
         </div>
     );
 }

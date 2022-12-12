@@ -52,6 +52,12 @@ function Field(props) {
         setEdges(copy);
     }
 
+    const addDirectedEdge = (newEdge) => {
+        const copy = [...edges];
+        copy.push(newEdge)
+        setEdges(copy);
+    }
+
     const removeEdge = (index) => {
         const copy = [...edges];
         copy.splice(index, 1)
@@ -77,6 +83,8 @@ function Field(props) {
             startDrag(index)
         } else if (clickAction === ClickAction.ADD_EDGE) {
             startAddEdge(index)
+        } else if (clickAction === ClickAction.ADD_DIRECTED_EDGE) {
+            startAddDirectedEdge(index)
         } else if (clickAction === ClickAction.DELETE) {
             removeVertex(index)
         } else if (clickAction === ClickAction.COLOR) {
@@ -111,7 +119,16 @@ function Field(props) {
         if (startEdge === null) {
             setStartEdge(index)
         } else {
-            addEdge({endpoints: [vertices[startEdge], vertices[index]], color: color})
+            addEdge({endpoints: [vertices[startEdge], vertices[index]], color: color, directedBool: false})
+            setStartEdge(null)
+        }
+    }
+
+    const startAddDirectedEdge = (index) => {
+        if (startEdge === null) {
+            setStartEdge(index)
+        } else {
+            addDirectedEdge({endpoints: [vertices[startEdge], vertices[index]], color: color, directedBool: true})
             setStartEdge(null)
         }
     }
@@ -153,30 +170,6 @@ function Field(props) {
         return components
     }
 
-    const isSimpleGraph = () => {
-        const endpointsSeen = []
-        for (const edge of edges) {
-            if (edge.endpoints in endpointsSeen) {
-                return false
-            } else if (edge.endpoints[0] === edge.endpoints[1]) {
-                return false
-            }
-            endpointsSeen.push(edge)
-        }
-        return true
-    }
-
-    const isNullGraph = () => {
-        return vertices.length === 0
-    }
-
-    const isTreeGraph = () => {
-        return isForestGraph() && numComponents() === 1
-    }
-
-    const isForestGraph = () => {
-        return numVertices() - numEdges() === numComponents() && isSimpleGraph()
-    }
 
     return (
         <div

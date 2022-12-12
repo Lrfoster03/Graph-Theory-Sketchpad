@@ -3,3 +3,9 @@
     height: 100%;
     width: 100%;
 }
+
+.Edge-Selected {
+    border-width: 0.2rem;
+    border-style: solid;
+    border-color: dodgerblue;
+}

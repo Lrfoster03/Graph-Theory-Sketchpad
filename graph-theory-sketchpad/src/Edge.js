@@ -5,9 +5,10 @@ function Edge(props) {
     const {edge, onMouseDown, offsetLeft, multiplicity} = props
     const [start, end] = edge.endpoints
     const isLoop = start === end;
-    const [x1, y1] = [start.position[0] - offsetLeft, start.position[1]]
-    const [x2, y2] = [end.position[0] - offsetLeft, end.position[1]]
+    const [x1, y1] = [start.position[0] - offsetLeft, start.position[1]] //Starting Vertex
+    const [x2, y2] = [end.position[0] - offsetLeft, end.position[1]]     //Ending Vertex
     const color = edge.color
+    const directedBool = edge.directedBool
 
 
     let d;
@@ -29,16 +30,41 @@ function Edge(props) {
              Q ${x3} ${y3} ${x2} ${y2}`
     }
 
-    return (
-        <path
-            onMouseDown={onMouseDown}
-            className='Edge-Path'
-            fill='transparent'
-            stroke={color}
-            strokeWidth='6'
-            d={d}
-        />
-    )
+
+    if (directedBool)
+    {
+        return (
+            <svg>
+                <marker id="arrow" markerWidth="10" markerHeight="7" refX="9.5" refY="2.625" orient="auto">
+                        <polygon onMouseDown={onMouseDown} stroke={color} strokeWidth='0' fill={color} points='0 0, 7.5 2.625, 0 5.25' />
+                </marker>
+                <path
+                    marker-end='url(#arrow)'
+                    onMouseDown={onMouseDown}
+                    className='Edge-Path'
+                    fill={color}
+                    stroke={color}
+                    strokeWidth='3'
+                    d={d}
+                    />
+            </svg>
+        )
+    }
+    else
+    {
+        return (
+            <path
+                onMouseDown={onMouseDown}
+                className='Edge-Path'
+                fill='transparent'
+                stroke={color}
+                strokeWidth='3'
+                d={d}
+            />
+        )
+    }
+
+
 
 
 }
