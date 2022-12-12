@@ -35,6 +35,11 @@ function SideBar(props) {
                 color={color}
                 onChange={(color, event) => setColor(color.hex)}
                 width='91%'/>
+            {/* <InfoBox
+                numVertices={numVertices()}
+                numEdges={numEdges()}
+                numComponents={numComponents()}
+            /> */}
         </div>
     );
 }

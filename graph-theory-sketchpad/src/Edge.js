@@ -36,7 +36,7 @@ function Edge(props) {
         return (
             <svg>
                 <marker id="arrow" markerWidth="10" markerHeight="7" refX="9.5" refY="2.625" orient="auto">
-                        <polygon onMouseDown={onMouseDown} stroke={color} strokeWidth='0' fill={color} points='0 0, 7.5 2.625, 0 5.25' />
+                        <polygon onMouseDown={onMouseDown} stroke={color} strokeWidth='0' fill={color} points='0 0, 9.5 2.7, 0 5.25' />
                 </marker>
                 <path
                     marker-end='url(#arrow)'
@@ -44,7 +44,7 @@ function Edge(props) {
                     className='Edge-Path'
                     fill={color}
                     stroke={color}
-                    strokeWidth='3'
+                    strokeWidth='5'
                     d={d}
                     />
             </svg>
@@ -58,7 +58,7 @@ function Edge(props) {
                 className='Edge-Path'
                 fill='transparent'
                 stroke={color}
-                strokeWidth='3'
+                strokeWidth='5'
                 d={d}
             />
         )
