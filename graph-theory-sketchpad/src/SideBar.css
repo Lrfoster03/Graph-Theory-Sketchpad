@@ -1,0 +1,10 @@
+.SideBar {
+    height: 100%;
+    width: 13rem;
+    background: gray;
+    border-width: 2px;
+    border-right-style: solid;
+    border-right-color: black;
+    padding: 1rem;
+    flex-shrink: 0;
+}
