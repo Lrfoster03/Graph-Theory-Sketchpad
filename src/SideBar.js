@@ -137,6 +137,23 @@ function SideBar(props) {
         }
     }, [activeTab, vertices, edges, showExportPopup, graphToAdjacencyMatrix]);
 
+    // Save graph data to localStorage whenever vertices or edges change
+    React.useEffect(() => {
+        const data = {
+            vertices: vertices.map((v) => ({
+                x: v.position[0],
+                y: v.position[1],
+                color: v.color
+            })),
+            edges: edges.map((e) => ({
+                from: vertices.indexOf(e.endpoints[0]),
+                to: vertices.indexOf(e.endpoints[1]),
+                directed: e.directedBool,
+                color: e.color
+            }))
+        };
+        localStorage.setItem('graphData', JSON.stringify(data));
+    }, [vertices, edges]);
 
     // Copy to clipboard
     const handleCopy = () => {
