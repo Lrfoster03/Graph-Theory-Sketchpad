@@ -1,4 +1,3 @@
-// ...existing code...
 import React from 'react';
 import './SideBar.css'
 import SideBarButton from "./SideBarButton";
@@ -7,9 +6,11 @@ import {SketchPicker} from "react-color";
 
 function SideBar(props) {
     const {clickAction, setClickAction, color, setColor, vertices, edges, setVertices, setEdges} = props
-
     const [showImportPopup, setShowImportPopup] = React.useState(false);
     const [importData, setImportData] = React.useState('');
+    const [showExportPopup, setShowExportPopup] = React.useState(false);
+    const [exportData, setExportData] = React.useState('');
+    const [activeTab, setActiveTab] = React.useState('JSON'); // 'JSON' or 'Matrix'
 
     const makeButton = ({name, onClickAction}) => {
         if (onClickAction === 'EXPORT') {
@@ -56,30 +57,86 @@ function SideBar(props) {
         {name: 'Import', onClickAction: 'IMPORT'}
     ];
 
-    // Popup state
-    const [showExportPopup, setShowExportPopup] = React.useState(false);
-    const [exportData, setExportData] = React.useState('');
+    // --- Adjacency Matrix helpers ---
+    const graphToAdjacencyMatrix = React.useCallback(() => {
+        const size = vertices.length;
+        const matrix = Array.from({length: size}, () => Array(size).fill(0));
+        edges.forEach(edge => {
+            const from = vertices.indexOf(edge.endpoints[0]);
+            const to = vertices.indexOf(edge.endpoints[1]);
+            matrix[from][to] += 1;
+            if (!edge.directedBool) matrix[to][from] += 1;
+        });
+        return matrix.map(row => row.join(' ')).join('\n');
+    }, [vertices, edges]);
 
-    // Export handler
+    const adjacencyMatrixToGraph = (matrixStr) => {
+        const rows = matrixStr.trim().split('\n');
+        const size = rows.length;
+        // Center of canvas (adjust as needed)
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+        const radius = Math.min(centerX, centerY) / 2.5;
+        const newVertices = Array.from({length: size}, (_, i) => {
+            const angle = (2 * Math.PI * i) / size;
+            return {
+                position: [
+                    centerX + radius * Math.cos(angle),
+                    centerY + radius * Math.sin(angle)
+                ],
+                color: '#000000'
+            };
+        });
+        const newEdges = [];
+        rows.forEach((row, i) => {
+            row.trim().split(/\s+/).forEach((val, j) => {
+                const count = parseInt(val, 10);
+                for (let k = 0; k < count; k++) {
+                    if (count > 0) {
+                        newEdges.push({
+                            endpoints: [newVertices[i], newVertices[j]],
+                            color: '#000000',
+                            directedBool: false
+                        });
+                    }
+                }
+            });
+        });
+        setVertices(newVertices);
+        setEdges(newEdges);
+    };
+
+    // --- Export handler ---
     const handleExport = () => {
-        const data = {
-            vertices: vertices.map((v, i) => ({
-                id: i,
-                x: v.position[0],
-                y: v.position[1],
-                color: v.color
-            })),
-            edges: edges.map((e, i) => ({
-                id: i,
-                from: vertices.indexOf(e.endpoints[0]),
-                to: vertices.indexOf(e.endpoints[1]),
-                directed: e.directedBool,
-                color: e.color
-            }))
-        };
-        setExportData(JSON.stringify(data, null, 2));
         setShowExportPopup(true);
     };
+
+    // Update exportData when tab, vertices, edges, or popup changes
+    React.useEffect(() => {
+        if (showExportPopup) {
+            if (activeTab === 'JSON') {
+                const data = {
+                    vertices: vertices.map((v, i) => ({
+                        id: i,
+                        x: v.position[0],
+                        y: v.position[1],
+                        color: v.color
+                    })),
+                    edges: edges.map((e, i) => ({
+                        id: i,
+                        from: vertices.indexOf(e.endpoints[0]),
+                        to: vertices.indexOf(e.endpoints[1]),
+                        directed: e.directedBool,
+                        color: e.color
+                    }))
+                };
+                setExportData(JSON.stringify(data, null, 2));
+            } else {
+                setExportData(graphToAdjacencyMatrix());
+            }
+        }
+    }, [activeTab, vertices, edges, showExportPopup, graphToAdjacencyMatrix]);
+
 
     // Copy to clipboard
     const handleCopy = () => {
@@ -91,29 +148,33 @@ function SideBar(props) {
         setShowExportPopup(false);
     };
 
-    // Import handler
+    // --- Import handler ---
     const handleImport = () => {
         try {
-            const data = JSON.parse(importData);
-            if (Array.isArray(data.vertices) && Array.isArray(data.edges)) {
-                // Reconstruct vertices and edges
-                const newVertices = data.vertices.map(v => ({
-                    position: [v.x, v.y],
-                    color: v.color
-                }));
-                const newEdges = data.edges.map(e => ({
-                    endpoints: [newVertices[e.from], newVertices[e.to]],
-                    color: e.color,
-                    directedBool: e.directed
-                }));
-                setVertices(newVertices);
-                setEdges(newEdges);
-                setShowImportPopup(false);
+            if (activeTab === 'JSON') {
+                const data = JSON.parse(importData);
+                if (Array.isArray(data.vertices) && Array.isArray(data.edges)) {
+                    const newVertices = data.vertices.map(v => ({
+                        position: [v.x, v.y],
+                        color: v.color
+                    }));
+                    const newEdges = data.edges.map(e => ({
+                        endpoints: [newVertices[e.from], newVertices[e.to]],
+                        color: e.color,
+                        directedBool: e.directed
+                    }));
+                    setVertices(newVertices);
+                    setEdges(newEdges);
+                    setShowImportPopup(false);
+                } else {
+                    alert("Invalid JSON format.");
+                }
             } else {
-                alert("Invalid JSON format.");
+                adjacencyMatrixToGraph(importData);
+                setShowImportPopup(false);
             }
         } catch (err) {
-            alert("Error parsing JSON.");
+            alert("Error parsing input.");
         }
     };
 
@@ -123,7 +184,21 @@ function SideBar(props) {
         setShowImportPopup(true);
     };
 
-return (
+    // --- Tabs UI ---
+    const renderTabs = () => (
+        <div style={{display: 'flex', marginBottom: '1rem'}}>
+            <button
+                style={{flex: 1, background: activeTab === 'JSON' ? '#ddd' : '#fff'}}
+                onClick={() => setActiveTab('JSON')}
+            >JSON</button>
+            <button
+                style={{flex: 1, background: activeTab === 'Matrix' ? '#ddd' : '#fff'}}
+                onClick={() => setActiveTab('Matrix')}
+            >Adjacency Matrix</button>
+        </div>
+    );
+
+    return (
         <div className="SideBar">
             {buttonData.map(element => makeButton(element))}
             <SketchPicker
@@ -141,7 +216,8 @@ return (
                     padding: '1rem',
                     zIndex: 1000
                 }}>
-                    <h3>Export Graph JSON</h3>
+                    <h3>Export Graph</h3>
+                    {renderTabs()}
                     <textarea
                         style={{width: '100%', height: '200px'}}
                         value={exportData}
@@ -164,12 +240,13 @@ return (
                     padding: '1rem',
                     zIndex: 1000
                 }}>
-                    <h3>Import Graph JSON</h3>
+                    <h3>Import Graph</h3>
+                    {renderTabs()}
                     <textarea
                         style={{width: '100%', height: '200px'}}
                         value={importData}
                         onChange={e => setImportData(e.target.value)}
-                        placeholder="Paste your graph JSON here"
+                        placeholder={activeTab === 'JSON' ? "Paste your graph JSON here" : "Paste adjacency matrix here"}
                     />
                     <div style={{marginTop: '1rem'}}>
                         <button onClick={handleImport}>Import</button>
