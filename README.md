@@ -1,4 +1,6 @@
-This was a Sketchpad web application that I created based on the Facebook / Meta react framework. It is heavily reliant on said framework as well as some open source react imports. If you want to take a look at it, you can find it [here][sketchpad].
+This was a Sketchpad web application that I created based on the Facebook / Meta react framework. It is heavily reliant on said framework as well as some open source react imports. This organization / repository is soley so I can host it on Github Pages. If you want to take a look at it, you can find it [here][sketchpad].
+
+<!-- To compile our app, we can run ```npm run build``` and to deploy we run ```npm run deploy```. This will route properly to the correct webpage. Then you can push up to git accordingly.-->
 
 **<u>Implementation:</u>**
 
