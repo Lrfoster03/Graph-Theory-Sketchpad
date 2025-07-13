@@ -1,7 +1,7 @@
 {
-  "homepage": "https://lrfoster03.github.io/Graph-Theory-Sketchpad",
+  "homepage": "https://Logoas.xyz/Graph-Theory-Sketchpad",
   "name": "graph-theory-sketchpad",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
