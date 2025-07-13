@@ -64,8 +64,12 @@ function SideBar(props) {
         edges.forEach(edge => {
             const from = vertices.indexOf(edge.endpoints[0]);
             const to = vertices.indexOf(edge.endpoints[1]);
-            matrix[from][to] += 1;
-            if (!edge.directedBool) matrix[to][from] += 1;
+            if (edge.directedBool) {
+                matrix[from][to] += 1; // Only one direction
+            } else {
+                matrix[from][to] += 1;
+                matrix[to][from] += 1; // Both directions for undirected
+            }
         });
         return matrix.map(row => row.join(' ')).join('\n');
     }, [vertices, edges]);
@@ -73,7 +77,6 @@ function SideBar(props) {
     const adjacencyMatrixToGraph = (matrixStr) => {
         const rows = matrixStr.trim().split('\n');
         const size = rows.length;
-        // Center of canvas (adjust as needed)
         const centerX = window.innerWidth / 2;
         const centerY = window.innerHeight / 2;
         const radius = Math.min(centerX, centerY) / 2.5;
@@ -96,7 +99,7 @@ function SideBar(props) {
                         newEdges.push({
                             endpoints: [newVertices[i], newVertices[j]],
                             color: '#000000',
-                            directedBool: false
+                            directedBool: i !== j // treat all as directed except self-loops
                         });
                     }
                 }
