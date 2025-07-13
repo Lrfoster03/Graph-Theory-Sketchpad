@@ -7,12 +7,11 @@ import EdgeContainer from "./EdgeContainer";
 import InfoBox from "./InfoBox";
 
 function Field(props) {
-    const {clickAction, color} = props
     const [dragging, setDragging] = useState(null);
     const [startEdge, setStartEdge] = useState(null);
-    const [vertices, setVertices] = useState([]);
-    const [edges, setEdges] = useState([])
     const root = useRef()
+    const {vertices, setVertices, edges, setEdges, clickAction, color} = props;
+
 
     const edgesWithEndpoint = (vertex) => {
         return edges.filter((edge) => edge.endpoints.includes(vertex))
