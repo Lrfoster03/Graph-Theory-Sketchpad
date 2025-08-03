@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/Graph-Theory-Sketchpad/static/css/main.df7b328a.css",
-    "main.js": "/Graph-Theory-Sketchpad/static/js/main.1bcf9f74.js",
+    "main.js": "/Graph-Theory-Sketchpad/static/js/main.af7c2146.js",
     "static/js/488.da3d6ac0.chunk.js": "/Graph-Theory-Sketchpad/static/js/488.da3d6ac0.chunk.js",
     "index.html": "/Graph-Theory-Sketchpad/index.html",
     "main.df7b328a.css.map": "/Graph-Theory-Sketchpad/static/css/main.df7b328a.css.map",
-    "main.1bcf9f74.js.map": "/Graph-Theory-Sketchpad/static/js/main.1bcf9f74.js.map",
+    "main.af7c2146.js.map": "/Graph-Theory-Sketchpad/static/js/main.af7c2146.js.map",
     "488.da3d6ac0.chunk.js.map": "/Graph-Theory-Sketchpad/static/js/488.da3d6ac0.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.df7b328a.css",
-    "static/js/main.1bcf9f74.js"
+    "static/js/main.af7c2146.js"
   ]
 }
