@@ -1,15 +1,16 @@
 {
   "files": {
     "main.css": "/Graph-Theory-Sketchpad/static/css/main.df7b328a.css",
-    "main.js": "/Graph-Theory-Sketchpad/static/js/main.af7c2146.js",
-    "static/js/488.da3d6ac0.chunk.js": "/Graph-Theory-Sketchpad/static/js/488.da3d6ac0.chunk.js",
+    "main.js": "/Graph-Theory-Sketchpad/static/js/main.599de97a.js",
+    "static/js/488.7364f330.chunk.js": "/Graph-Theory-Sketchpad/static/js/488.7364f330.chunk.js",
+    "static/media/web-vitals.umd.cjs": "/Graph-Theory-Sketchpad/static/media/web-vitals.umd.ec2e0aa346981d0c1df8.cjs",
     "index.html": "/Graph-Theory-Sketchpad/index.html",
     "main.df7b328a.css.map": "/Graph-Theory-Sketchpad/static/css/main.df7b328a.css.map",
-    "main.af7c2146.js.map": "/Graph-Theory-Sketchpad/static/js/main.af7c2146.js.map",
-    "488.da3d6ac0.chunk.js.map": "/Graph-Theory-Sketchpad/static/js/488.da3d6ac0.chunk.js.map"
+    "main.599de97a.js.map": "/Graph-Theory-Sketchpad/static/js/main.599de97a.js.map",
+    "488.7364f330.chunk.js.map": "/Graph-Theory-Sketchpad/static/js/488.7364f330.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.df7b328a.css",
-    "static/js/main.af7c2146.js"
+    "static/js/main.599de97a.js"
   ]
 }
