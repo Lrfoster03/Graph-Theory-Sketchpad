@@ -186,7 +186,11 @@ function Field(props) {
             {vertices.map((vertex, index) => {
                 return (
                     <Vertex
-                        className={index === startEdge ? 'Vertex-Selected' : ''}
+                        className={
+                            (clickAction === ClickAction.SELECT && dragging === index)
+                                ? 'Vertex-Selected'
+                                : (index === startEdge ? 'Vertex-Selected' : '')
+                        }
                         vertex={vertex}
                         key={index}
                         onMouseDown={(event) => onVertexMouseDown(event, index)}
