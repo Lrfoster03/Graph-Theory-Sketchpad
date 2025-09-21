@@ -52,9 +52,9 @@ function SideBar(props) {
         {name: 'New Edge', onClickAction: ClickAction.ADD_EDGE},
         {name: 'New Directed Edge', onClickAction: ClickAction.ADD_DIRECTED_EDGE},
         {name: 'Delete', onClickAction: ClickAction.DELETE},
-        {name: 'Color', onClickAction: ClickAction.COLOR},
         {name: 'Export', onClickAction: 'EXPORT'},
-        {name: 'Import', onClickAction: 'IMPORT'}
+        {name: 'Import', onClickAction: 'IMPORT'},
+        {name: 'Color', onClickAction: ClickAction.COLOR}
     ];
 
     // --- Adjacency Matrix helpers ---
